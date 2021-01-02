@@ -22,12 +22,11 @@ public class App extends Application {
     public static int backH=876;
     String serverIP;
     int serverPort;
-    //(1280,720)/(16,12)=(80,60)
     
     @Override
     public void start(Stage primaryStage) {
         
-        Image img=new Image("file:image/2.jpg");
+        Image img=new Image("file:image/战斗背景.jpg");
         StackPane root = new StackPane();
         root.setBackground(new Background(new BackgroundImage(img,null,null,null,null)));
 

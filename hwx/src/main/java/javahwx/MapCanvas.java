@@ -17,6 +17,17 @@ enum UserState{
     Replay,//战斗回放状态
     MoveFree,AttackFree,Skilling,Attacking,Moving,Waiting//战斗时的五种状态
 };
+/*
+游戏状态机：
+登录界面->联机对战 or 战局回放
+联机对战->作为Server端（葫芦娃） or 作为Client端（妖精）
+作为Server端->显示IP地址和端口号，等待连接
+作为Client端->要求输入服务器的IP地址和端口号，尝试连接
+连接成功->棋盘初始化，并进入战斗
+战局回放(R键)->弹出界面，要求用户选择适当的文件进行回放
+已选择回放文件->棋盘初始化，并进入战斗，但这里的战斗指令由文件内的指令控制，大概每`sleep(1000)`进行一次操作
+战斗结束（`isOver()`）->切断UDP连接（如果有的话），并回到 登录界面
+*/
 public class MapCanvas extends Canvas{
     private Fight fight;
     private GraphicsContext gc;
@@ -57,6 +68,7 @@ public class MapCanvas extends Canvas{
                     if (fight.isOver())
                     {
                         replay.writeEnd();
+                        gp.close();
                         userState=UserState.Start;
                         showAlert=true;
                     }
@@ -86,7 +98,7 @@ public class MapCanvas extends Canvas{
         button[2]=btn[2];
         button[3]=btn[3];
         gc=getGraphicsContext2D();
-        startimage=new Image("file:image/0001.jpg");
+        startimage=new Image("file:image/启动背景.jpg");
         userState=UserState.Start;
         showAlert=false;
         //resetFight(camp,btn1,btn2);//Notice 网络链接后可能要改的地方
@@ -119,6 +131,7 @@ public class MapCanvas extends Canvas{
                 finally{
                     if (fight.isOver()){
                         replay.writeEnd();
+                        gp.close();
                         userState=UserState.Start;
                         showAlert=true;
                         //resetFight(camp,btn1,btn2);
@@ -142,6 +155,7 @@ public class MapCanvas extends Canvas{
                 finally{
                     if (fight.isOver()){
                         replay.writeEnd();
+                        gp.close();
                         userState=UserState.Start;
                         showAlert=true;
                         //resetFight(camp,btn1,btn2);
@@ -165,6 +179,7 @@ public class MapCanvas extends Canvas{
                 finally{
                     if (fight.isOver()){
                         replay.writeEnd();
+                        gp.close();
                         userState=UserState.Start;
                         showAlert=true;
                         //resetFight(camp,btn1,btn2);

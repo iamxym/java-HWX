@@ -6,7 +6,6 @@ public interface GameMsg{
     public static final int ATTACK_MSG=2;//攻击
     public static final int NULL_MSG=3;//无行动
     public static final int SKILL_MSG=4;//技能
-    //感觉需要像tank一样再建一层Client，用于实现GameMsg的多态，即根据MsgType的不同构建不同的Msg并调用parse
     public void send(GameProtocol gp);//将对应Msg内的参数（如移动位置，棋子编号等）打包成packet并调用GameProtocol的send
     //public void parse(DataInputStream dis,Fight fight);//用于解释“已经获得信息类型的packet”
 }

@@ -40,7 +40,7 @@ public class Character{
 	}
 	private PropertyClickListener propertyClickListener;*/
 	Character(){}
-	Character(String name,int attackValue,ArrayList<Coord> attackRange,int maxHP,int nowHP,int speed,boolean isDead,ArrayList<Coord> moveRange,Camp camp,Skill skill)
+	Character(String name,int attackValue,ArrayList<Coord> moveRange,int maxHP,int nowHP,int speed,boolean isDead,ArrayList<Coord> attackRange,Camp camp,Skill skill)
 	{
 		this.id=++Character.id_count;
 		this.name=new String(name);
@@ -54,7 +54,8 @@ public class Character{
 		this.dead=isDead;
 		this.camp=camp;
 		this.skill=skill;
-		this.image=new Image("file:image/"+name+".png");
+		if (isDead==true);
+		else this.image=new Image("file:image/"+name+".png");
 		//this.image=new Image("file:image/hulu1.jpg");
 		this.flashDuring=0;
 		this.isFlash=0;
@@ -94,6 +95,31 @@ public class Character{
 	//以下为返回图片像素坐标的左上角
 	public int getPixelX(){return MapCanvas.startLeft+coord.getX()*Map.gridWidth;}
 	public int getPixelY(){return MapCanvas.startUp+coord.getY()*Map.gridHeight;}
+	//Debug相关
+	public void printMoveRange()
+	{
+		System.out.println("MOVE RANGE:");
+		for (Coord coord:moveRange)
+		{
+			System.out.println(coord);
+		}
+	}
+	public void printAttackRange()
+	{
+		System.out.println("ATTACK RANGE:");
+		for (Coord coord:attackRange)
+		{
+			System.out.println(coord);
+		}
+	}
+	public void printSkillRange()
+	{
+		System.out.println("SKILL RANGE:");
+		for (Coord coord:skill.skillRange)
+		{
+			System.out.println(coord);
+		}
+	}
 	public boolean isCollisionWith(double otherPixelX,double otherPixelY)
 	{
 		return Map.isCollisionWith(getPixelX(),getPixelY(),otherPixelX,otherPixelY);
@@ -244,14 +270,14 @@ public class Character{
 	}
 }
 class JusticeCharacter extends Character{
-	JusticeCharacter(String name,int attackValue,ArrayList<Coord> attackRange,int maxHP,int nowHP,int speed,boolean isDead,ArrayList<Coord> moveRange,Skill skill)
+	JusticeCharacter(String name,int attackValue,ArrayList<Coord> moveRange,int maxHP,int nowHP,int speed,boolean isDead,ArrayList<Coord> attackRange,Skill skill)
 	{
-		super(name,attackValue,attackRange,maxHP,nowHP,speed,isDead,moveRange,Camp.JUSTICE,skill);
+		super(name,attackValue,moveRange,maxHP,nowHP,speed,isDead,attackRange,Camp.JUSTICE,skill);
 	}
 }
 class EvilCharacter extends Character{
-	EvilCharacter(String name,int attackValue,ArrayList<Coord> attackRange,int maxHP,int nowHP,int speed,boolean isDead,ArrayList<Coord> moveRange,Skill skill)
+	EvilCharacter(String name,int attackValue,ArrayList<Coord> moveRange,int maxHP,int nowHP,int speed,boolean isDead,ArrayList<Coord> attackRange,Skill skill)
     {
-		super(name,attackValue,attackRange,maxHP,nowHP,speed,isDead,moveRange,Camp.EVIL,skill);
+		super(name,attackValue,moveRange,maxHP,nowHP,speed,isDead,attackRange,Camp.EVIL,skill);
     }
 }

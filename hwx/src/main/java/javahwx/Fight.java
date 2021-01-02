@@ -80,28 +80,32 @@ public class Fight{
         {
             case HEAL:break;
             case GAZE:break;
+            case SNIPE:break;
             case CUT:
                 try{
                     skilled=coordToCharacter(new Coord(pos.getX(),pos.getY()+1));
-                    if (skilled.getCamp()!=skiller.getCamp()) skilled.getAttacked(1);
+                    if (skilled.getCamp()!=skiller.getCamp()) skilled.getAttacked(2);
                 }catch (OutOfRangeException ore){}
                 try{
                     skilled=coordToCharacter(new Coord(pos.getX(),pos.getY()-1));
-                    if (skilled.getCamp()!=skiller.getCamp()) skilled.getAttacked(1);
+                    if (skilled.getCamp()!=skiller.getCamp()) skilled.getAttacked(2);
                 }catch (OutOfRangeException ore){}
                 try{
                     skilled=coordToCharacter(new Coord(pos.getX()-1,pos.getY()));
-                    if (skilled.getCamp()!=skiller.getCamp()) skilled.getAttacked(1);
+                    if (skilled.getCamp()!=skiller.getCamp()) skilled.getAttacked(2);
                 }catch (OutOfRangeException ore){}
                 try{
                     skilled=coordToCharacter(new Coord(pos.getX()+1,pos.getY()));
-                    if (skilled.getCamp()!=skiller.getCamp()) skilled.getAttacked(1);
+                    if (skilled.getCamp()!=skiller.getCamp()) skilled.getAttacked(2);
                 }catch (OutOfRangeException ore){}
                 break;
             case SWAP:
                 Coord coord=skilled.getPosition();
                 skilled.placeHere(skiller.getPosition().getX(),skiller.getPosition().getY());
                 skiller.placeHere(coord.getX(),coord.getY());
+                break;
+            case VAMPIRE:
+                skiller.getAttacked(-3);
                 break;
         }
     }
@@ -110,46 +114,187 @@ public class Fight{
         Character.idReset();
         justiceArray.clear();
         evilArray.clear();
-        try{
-        JusticeCharacter fireCalabash=new JusticeCharacter("术士娃",3,
+        
+        JusticeCharacter jc=new JusticeCharacter("战士娃",5,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),new Coord(0,-1),
+                            new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1)})),
+                            18,18,4,false,
                             new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),new Coord(0,-1)})),
-                            10,10,2,false,
+                            //new SwapSkill()
+                            null
+                            );
+        jc.placeHere(3,2);
+        justiceArray.add(jc);
+        
+        jc=new JusticeCharacter("盗贼娃",4,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {
+                                new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),new Coord(0,-1),
+                                new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1),
+                                new Coord(-2,-2),new Coord(-2,-1),new Coord(-2,0),new Coord(-2,1),new Coord(-2,2),
+                                new Coord(2,-2),new Coord(2,-1),new Coord(2,0),new Coord(2,1),new Coord(2,2),
+                                new Coord(-1,-2),new Coord(0,-2),new Coord(1,-2),new Coord(-1,2),new Coord(0,2),new Coord(1,2),
+                                new Coord(-3,0),new Coord(3,0),new Coord(0,-3),new Coord(0,3)})),
+                            12,12,8,false,
                             new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),new Coord(0,-1)})),
                             new SwapSkill()
                             //null
                             );
-        fireCalabash.placeHere(2,2);
-        justiceArray.add(fireCalabash);
-        }catch (Exception e){e.printStackTrace();}
-        JusticeCharacter waterCalabash=new JusticeCharacter("牧师娃",4,
-                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),new Coord(0,-1)})),
-                            9,9,2,false,
-                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),new Coord(0,-1)})),
+        jc.placeHere(3,4);
+        justiceArray.add(jc);
+
+        jc=new JusticeCharacter("骑士娃",4,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),new Coord(0,-1),
+                                new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1)})),
+                            20,20,4,false,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),new Coord(0,-1),
+                                new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1)})),
+                            //new SwapSkill()
+                            null
+                            );
+        jc.placeHere(3,6);
+        justiceArray.add(jc);
+
+        jc=new JusticeCharacter("术士娃",4,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),new Coord(0,-1),
+                                new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1),
+                                new Coord(-2,0),new Coord(2,0),new Coord(0,-2),new Coord(0,2)})),
+                            18,18,6,false,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),new Coord(0,-1),
+                                new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1)})),
+                            //new SwapSkill()
+                            null
+                            );
+        jc.placeHere(3,8);
+        justiceArray.add(jc);
+
+        jc=new JusticeCharacter("猎人娃",5,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),
+                                new Coord(0,-1),new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1),
+                                new Coord(-2,0),new Coord(2,0),new Coord(0,-2),new Coord(0,2)})),
+                            12,12,7,false,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),
+                                new Coord(0,-1),new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1),
+                                new Coord(-2,0),new Coord(2,0),new Coord(0,-2),new Coord(0,2)})),
+                            new SnipeSkill()
+                           // null
+                            );
+        jc.placeHere(2,3);
+        justiceArray.add(jc);
+
+        jc=new JusticeCharacter("法师娃",5,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),
+                                new Coord(0,-1),new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1),
+                                new Coord(-2,0),new Coord(2,0),new Coord(0,-2),new Coord(0,2)})),
+                            14,14,5,false,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),
+                                new Coord(0,-1),new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1)})),
+                            //new SwapSkill()
+                            null
+                            );
+        jc.placeHere(2,5);
+        justiceArray.add(jc);
+
+        jc=new JusticeCharacter("牧师娃",3,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),
+                                new Coord(0,-1),new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1),
+                                new Coord(-2,0),new Coord(2,0),new Coord(0,-2),new Coord(0,2)})),
+                            16,16,5,false,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),
+                                new Coord(0,-1),new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1)})),
                             new HealSkill()
                             //null
                             );
-        waterCalabash.placeHere(2,3);
-        justiceArray.add(waterCalabash);
+        jc.placeHere(2,7);
+        justiceArray.add(jc);
         
-        EvilCharacter snake=new EvilCharacter("蛇精",4,
-                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),new Coord(0,-1)})),
-                            10,10,2,false,
-                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),new Coord(0,-1)})),
-                            new GazeSkill()
-                            //null
-                            );
-        snake.placeHere(4,2);
-        evilArray.add(snake);
         
-        EvilCharacter scorpion=new EvilCharacter("蝎子精",2,
-                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),new Coord(0,-1)})),
-                            12,12,2,false,
+        EvilCharacter ec=new EvilCharacter("蝎子精",4,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),new Coord(0,-1),
+                            new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1)})),
+                            18,18,3,false,
                             new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),new Coord(0,-1)})),
                             new CutSkill()
                             //null
                             );
-        scorpion.placeHere(4,3);
-        evilArray.add(scorpion);
+        ec.placeHere(12,2);
+        evilArray.add(ec);
+
+        ec=new EvilCharacter("蜘蛛精",5,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {
+                                new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),new Coord(0,-1),
+                                new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1),
+                                new Coord(-2,-2),new Coord(-2,-1),new Coord(-2,0),new Coord(-2,1),new Coord(-2,2),
+                                new Coord(2,-2),new Coord(2,-1),new Coord(2,0),new Coord(2,1),new Coord(2,2),
+                                new Coord(-1,-2),new Coord(0,-2),new Coord(1,-2),new Coord(-1,2),new Coord(0,2),new Coord(1,2)})),
+                            14,14,7,false,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),new Coord(0,-1)})),
+                            null
+                            );
+        ec.placeHere(12,4);
+        evilArray.add(ec);
+
+        ec=new EvilCharacter("蛤蟆精",4,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),new Coord(0,-1),
+                                new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1)})),
+                            20,20,4,false,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),new Coord(0,-1),
+                                new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1)})),
+                            //new SwapSkill()
+                            null
+                            );
+        ec.placeHere(12,6);
+        evilArray.add(ec);
+
+        ec=new EvilCharacter("蜈蚣精",4,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),new Coord(0,-1),
+                                new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1)})),
+                            18,18,6,false,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),new Coord(0,-1),
+                                new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1)})),
+                            //new SwapSkill()
+                            null
+                            );
+        ec.placeHere(12,8);
+        evilArray.add(ec);
+
+        ec=new EvilCharacter("马蜂",6,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),
+                                new Coord(0,-1),new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1),
+                                new Coord(-2,0),new Coord(2,0),new Coord(0,-2),new Coord(0,2)})),
+                            12,12,7,false,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),
+                                new Coord(0,-1),new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1),
+                                new Coord(-2,0),new Coord(2,0),new Coord(0,-2),new Coord(0,2)})),
+                            //new SwapSkill()
+                            null
+                            );
+        ec.placeHere(13,3);
+        evilArray.add(ec);
+
+        ec=new EvilCharacter("蝙蝠",5,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),
+                                new Coord(0,-1),new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1),
+                                new Coord(-2,0),new Coord(2,0),new Coord(0,-2),new Coord(0,2)})),
+                            14,14,5,false,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),
+                                new Coord(0,-1),new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1)})),
+                            new VampireSkill()
+                            //null
+                            );
+        ec.placeHere(13,7);
+        evilArray.add(ec);
+        ec=new EvilCharacter("蛇精",4,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),
+                                new Coord(0,-1),new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1),new Coord(-2,0),new Coord(2,0),new Coord(0,-2),new Coord(0,2)
+                            })),
+                            16,16,5,false,
+                            new ArrayList<Coord>(Arrays.asList(new Coord[] {new Coord(0,0),new Coord(1,0),new Coord(0,1),new Coord(-1,0),
+                                new Coord(0,-1),new Coord(1,-1),new Coord(1,1),new Coord(-1,1),new Coord(-1,-1)})),
+                            new GazeSkill()
+                            //null
+                            );
+        ec.placeHere(13,5);
+        evilArray.add(ec);
 
         randomVal=new int[justiceArray.size()+evilArray.size()];
         for (int i=0;i<randomVal.length;++i) randomVal[i]=i;
