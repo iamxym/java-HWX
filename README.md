@@ -83,7 +83,8 @@ private Thread thread=new Thread(new Runnable(){
 这里选择在MapCanvas中新建一个线程用于绘制，而`draw(),update()`方法负责具体的绘制行为
 
 # 游戏流程（作业评测时的操作相关）
->**游戏状态机**：
+```
+游戏状态机：
 
 登录界面->联机对战 or 战局回放
 
@@ -100,6 +101,8 @@ private Thread thread=new Thread(new Runnable(){
 已选择回放文件->棋盘初始化，并进入战斗，但这里的战斗指令由文件内的指令控制，大概每`sleep(1000)`进行一次操作
 
 战斗结束（`isOver()`）->切断UDP连接（如果有的话），并回到 登录界面
+
+```
 
 游戏开始时的界面为：`image/启动背景.jpg`
 
