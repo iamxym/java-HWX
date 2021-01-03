@@ -1,8 +1,26 @@
 # java-HWX
 本项目为张浩南-181860134单人完成，无组队
 
-# 测试相关
+# 评测相关
 在`hwx/`目录下执行`mvn clean test package`，然后执行`java -jar target/hwx-1.0-SNAPSHOT.jar`即可进入游戏，接下来的操作可见**游戏流程**
+
+本机环境为Linux debian 4.19.0-5-amd64 #1 SMP Debian 4.19.37-5+deb10u2 (2019-08-08) x86_64 GNU/Linux
+
+
+环境变量配置为
+```
+JAVA_HOME=/home/zhanghaonan/java_jdk/jdk1.8.0_261
+
+CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/hamcrest-core-1.3.jar:$JAVA_HOME/lib/junit-4.13.1.jar:$JAVA_HOME/lib/javafx-mx.jar:$JAVA_HOME/lib/ant-javafx.jar
+
+MAVEN_HOME=/home/zhanghaonan/java_jdk/apache-maven-3.6.3
+
+PATH=$MAVEN_HOME/bin:$JAVA_HOME/bin:$PATH
+```
+
+**Notice**：由于javafx 8包含在JDK 8中，即直接在lib中找到而无需下载，因此我在配置环境时**将其一并加入`CLASSPATH`中，而并没有将其作为第三方独立库处理，在POM.xml中也没有进行相关配置**，所以在助教/老师maven编译时可能会出现找不到javafx库的情况。
+
+
 # 设计思想
 考虑将代码模块分为4个部分：**游戏设计、网络对战、战斗回放、图形界面**
 
@@ -94,7 +112,10 @@ private Thread thread=new Thread(new Runnable(){
 
 连接成功后进入战斗画面，**右下角的四个按钮**分别对应”移动”、“攻击”、“释放技能”、“取消”
 
+（注意无连接的UDP在极少情况下会出现连接失败的情况，可能会出现某一方没有进入战斗场景的情况，此时将两边均中断`Ctrc+C`后，重新启动并连接即可；若通信成功则两边均会显示战斗场景）
+
 当轮到玩家阵营的角色行动时，起始处于移动环节和`Free`状态
+
 Notice：`Free`状态下可以**右键点击不同角色的头像以查看角色属性**（回放模式下同样适用）
 移动环节的Free状态下**右键点击move**会在棋盘上显示移动范围（黄色），若此时**点击范围内的方格**则会将该角色移动至此，并进入**攻击/释放技能环节**；若此时**左键点击move**则会回到`Free`状态。
 
